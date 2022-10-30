@@ -159,4 +159,10 @@ mod tests {
         );
         // assert_eq!(vec!["不凡"], unicode_layzy_match(&lst_hz, "bfan").unwrap()); // failed
     }
+
+    #[test]
+    fn tets_unicode_layzy_match_witch_not_matched() {
+        let lst_hz = vec!["北方", "彼方", "其他", "不凡"];
+        assert!(unicode_layzy_match(&lst_hz, "wd").is_none());
+    }
 }
