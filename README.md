@@ -8,7 +8,7 @@ The purpose of this project is to match the corresponding unicode with a short a
  - Compact Unicode matching with other languages (only Japanese hiragana and katakana have been tested for now).
 
 ## Known bugs:
- - All 漢字（ｊｐ　Kanji）(ｚｈ　Hanzi) will be matched into pinyin. \
+ - All 漢字（jp　Kanji）(zh　Hanzi) will be matched into pinyin. \
   like　Japanese kanji 桜（sakura）will be recognized as Chinese pinyin（樱/櫻）ying
 
 ## Todo Next
