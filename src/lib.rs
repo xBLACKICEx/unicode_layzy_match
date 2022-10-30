@@ -1,5 +1,25 @@
 use deunicode::deunicode;
 
+/// match the corresponding unicode with a short ascii string
+/// # Examples
+/// ```
+/// use unicode_layzy_match::unicode_layzy_match;
+///
+/// let lst_uc = vec![
+///   "不算",      // bu suan
+///   "北方",      // bei fang
+///   "不对",      // bu dui
+///   "よろしく",   // yo ro shi ku
+///   "こんにちわ", // ko nn ni chi wa
+///   "同步",     // tong bu
+///   "彼方",     // bi fang
+///   "其他",     // qi ta
+///   ];
+/// 
+/// assert_eq!(vec!["よろしく"], unicode_layzy_match(&lst_uc, "y").unwrap());
+/// assert_eq!(vec!["こんにちわ"], unicode_layzy_match(&lst_uc, "kon").unwrap());
+/// assert_eq!(vec!["北方", "彼方"], unicode_layzy_match(&lst_uc, "bf").unwrap());
+/// ```
 pub fn unicode_layzy_match<'a>(lst_uc: &Vec<&'a str>, usr_ipt: &str) -> Option<Vec<&'a str>> {
     if let Some(lst_uc_ascii) = unicde_first_ascii_char_mached(&lst_uc, usr_ipt) {
         if let Some(matched_lzy_uc) = uncode_layzy_pinyin_matched(&lst_uc_ascii, usr_ipt, &lst_uc) {
