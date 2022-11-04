@@ -134,6 +134,7 @@ mod tests {
             "不对",
             "よろしく",
             "こんにちわ",
+            "Привет",
             "同步",
             "彼方",
             "其他",
@@ -141,10 +142,11 @@ mod tests {
 
         assert_eq!(vec!["よろしく"], unicode_layzy_match(&lst_hz, "y").unwrap());
         assert_eq!(vec!["こんにちわ"], unicode_layzy_match(&lst_hz, "kon").unwrap());
+        assert_eq!(vec!["Привет"], unicode_layzy_match(&lst_hz, "Privet").unwrap());
     }
 
     #[test]
-    fn tets_unicode_layzy_match_witch_layzy_pytin_1() {
+    fn tets_unicode_layzy_match_witch_layzy_pinyin() {
         let lst_hz = vec![
             "不算",
             "北方",
@@ -154,29 +156,18 @@ mod tests {
             "同步",
             "彼方",
             "其他",
+            "Beif"
         ];
 
         assert_eq!(
-            vec!["不算", "北方", "不对", "彼方"],
+            vec!["不算", "北方", "不对", "彼方", "Beif"],
             unicode_layzy_match(&lst_hz, "b").unwrap()
         );
 
         assert_eq!(vec!["北方", "彼方"], unicode_layzy_match(&lst_hz, "bf").unwrap());
 
-        assert_eq!(vec!["北方"], unicode_layzy_match(&lst_hz, "beif").unwrap());
+        assert_eq!(vec!["北方", "Beif"], unicode_layzy_match(&lst_hz, "beif").unwrap());
         assert_eq!(vec!["北方"], unicode_layzy_match(&lst_hz, "beifa").unwrap());
-        assert_eq!(vec!["北方"], unicode_layzy_match(&lst_hz, "beifan").unwrap());
-        assert_eq!(vec!["北方"], unicode_layzy_match(&lst_hz, "beifang").unwrap());
-    }
-
-    #[test]
-    fn tets_unicode_layzy_match_witch_layzy_pytin_2() {
-        let lst_hz = vec!["北方", "彼方", "其他", "不凡"];
-        assert_eq!(
-            vec!["北方", "彼方", "不凡"],
-            unicode_layzy_match(&lst_hz, "bf").unwrap()
-        );
-        // assert_eq!(vec!["不凡"], unicode_layzy_match(&lst_hz, "bfan").unwrap()); // failed
     }
 
     #[test]
