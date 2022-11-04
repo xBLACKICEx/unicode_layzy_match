@@ -90,7 +90,11 @@ fn uncode_layzy_pinyin_matched<'a>(
 
     let mut i = 0;
     while i < lst_py.len() {
+
         if match_layzy_pinyin(&lst_py[i].split_whitespace().collect::<Vec<_>>(), usr_ipt) {
+            mached_py.push(lst_py.remove(i));
+            mached_hz.push(lst_hz.remove(i));
+        } else if lst_py[i].replace(" ", "").to_lowercase().starts_with(usr_ipt) {
             mached_py.push(lst_py.remove(i));
             mached_hz.push(lst_hz.remove(i));
         } else {
