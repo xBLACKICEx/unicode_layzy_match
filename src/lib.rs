@@ -20,8 +20,8 @@ use deunicode::deunicode;
 /// assert_eq!(vec!["こんにちわ"], unicode_layzy_match(&lst_uc, "kon").unwrap());
 /// assert_eq!(vec!["北方", "彼方"], unicode_layzy_match(&lst_uc, "bf").unwrap());
 /// ```
-pub fn unicode_layzy_match<'a>(lst_uc: &Vec<&'a str>, usr_ipt: &str) -> Option<Vec<&'a str>> {
-    if let Some((mut lst_ps, mut lst_uc)) = unicde_first_ascii_char_mached(&lst_uc, usr_ipt) {
+pub fn unicode_layzy_match<'a>(lst_uc: &[&'a str], usr_ipt: &str) -> Option<Vec<&'a str>> {
+    if let Some((mut lst_ps, mut lst_uc)) = unicde_first_ascii_char_mached(lst_uc, usr_ipt) {
         let matched_lzy_py = uncode_layzy_pinyin_matched(&mut lst_ps, &mut lst_uc, usr_ipt);
 
         if let Some(mut matched_uc) = unicode_ascii_matched(&mut lst_ps, &mut lst_uc, usr_ipt) {
@@ -38,7 +38,7 @@ pub fn unicode_layzy_match<'a>(lst_uc: &Vec<&'a str>, usr_ipt: &str) -> Option<V
 }
 
 fn unicde_first_ascii_char_mached<'a>(
-    lst_uc: &Vec<&'a str>,
+    lst_uc: &[&'a str],
     usr_ipt: &str,
 ) -> Option<(Vec<String>, Vec<&'a str>)> {
     let mut lst_uni_ascii: (Vec<String>, Vec<&'a str>) = (Vec::new(), Vec::new());
@@ -90,7 +90,7 @@ fn uncode_layzy_pinyin_matched<'a>(
 
     let mut i = 0;
     while i < lst_py.len() {
-        if match_layzy_pinyin(lst_py[i].to_lowercase().split_whitespace().collect(), usr_ipt) {
+        if match_layzy_pinyin(&lst_py[i].split_whitespace().collect::<Vec<_>>(), usr_ipt) {
             mached_py.push(lst_py.remove(i));
             mached_hz.push(lst_hz.remove(i));
         } else {
@@ -104,7 +104,7 @@ fn uncode_layzy_pinyin_matched<'a>(
     None
 }
 
-fn match_layzy_pinyin(lst_pinyin: Vec<&str>, pinyin: &str) -> bool {
+fn match_layzy_pinyin(lst_pinyin: &[&str], pinyin: &str) -> bool {
     if lst_pinyin.len() != pinyin.len() {
         return false;
     }
