@@ -21,10 +21,12 @@ use deunicode::deunicode;
 /// assert_eq!(vec!["北方", "彼方"], unicode_layzy_match(&lst_uc, "bf").unwrap());
 /// ```
 pub fn unicode_layzy_match<'a>(lst_uc: &[&'a str], usr_ipt: &str) -> Option<Vec<&'a str>> {
-    if let Some((mut lst_ps, mut lst_uc)) = unicde_first_ascii_char_mached(lst_uc, usr_ipt) {
-        let matched_lzy_py = uncode_layzy_pinyin_matched(&mut lst_ps, &mut lst_uc, usr_ipt);
+    let ipt = usr_ipt.to_lowercase();
 
-        if let Some(mut matched_uc) = unicode_ascii_matched(&mut lst_ps, &mut lst_uc, usr_ipt) {
+    if let Some((mut lst_ps, mut lst_uc)) = unicde_first_ascii_char_mached(lst_uc, &ipt) {
+        let matched_lzy_py = uncode_layzy_pinyin_matched(&mut lst_ps, &mut lst_uc, &ipt);
+
+        if let Some(mut matched_uc) = unicode_ascii_matched(&mut lst_ps, &mut lst_uc, &ipt) {
             if let Some((_, mut lz_py)) = matched_lzy_py {
                 lz_py.append(&mut matched_uc.1);
                 return Some(lz_py);
