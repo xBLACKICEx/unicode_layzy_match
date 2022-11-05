@@ -6,19 +6,21 @@ use deunicode::deunicode;
 /// use unicode_layzy_match::unicode_layzy_match;
 ///
 /// let lst_uc = vec![
-///   "不算",      // bu suan
-///   "北方",      // bei fang
-///   "不对",      // bu dui
+///   "不算",       // bu suan
+///   "北方",       // bei fang
+///   "不对",       // bu dui
 ///   "よろしく",   // yo ro shi ku
 ///   "こんにちわ", // ko nn ni chi wa
-///   "同步",     // tong bu
-///   "彼方",     // bi fang
-///   "其他",     // qi ta
+///   "Привет",    // Privet
+///   "同步",      // tong bu
+///   "彼方",      // bi fang
+///   "其他",      // qi ta
 ///   ];
 ///
 /// assert_eq!(vec!["よろしく"], unicode_layzy_match(&lst_uc, "y").unwrap());
 /// assert_eq!(vec!["こんにちわ"], unicode_layzy_match(&lst_uc, "kon").unwrap());
 /// assert_eq!(vec!["北方", "彼方"], unicode_layzy_match(&lst_uc, "bf").unwrap());
+/// assert_eq!(vec!["Привет"], unicode_layzy_match(&lst_uc, "Priv").unwrap());
 /// ```
 pub fn unicode_layzy_match<'a>(lst_uc: &[&'a str], usr_ipt: &str) -> Option<Vec<&'a str>> {
     let ipt = usr_ipt.to_lowercase();
@@ -92,7 +94,6 @@ fn uncode_layzy_pinyin_matched<'a>(
 
     let mut i = 0;
     while i < lst_py.len() {
-
         if match_layzy_pinyin(&lst_py[i].split_whitespace().collect::<Vec<_>>(), usr_ipt) {
             mached_py.push(lst_py.remove(i));
             mached_hz.push(lst_hz.remove(i));
@@ -131,44 +132,41 @@ mod tests {
     #[test]
     fn tets_unicode_layzy_match_witch_layzy_acsii() {
         let lst_hz = vec![
-            "不算",
-            "北方",
-            "不对",
-            "よろしく",
-            "こんにちわ",
-            "Привет",
-            "同步",
-            "彼方",
-            "其他",
-        ];
+            "不算",       // bu suan
+            "Beif",
+            "よろしく",   // yo ro shi ku
+            "北方",       // bei fang
+            "不对",       // bu dui
+            "こんにちわ", // ko nn ni chi wa
+            "同步",      // tong bu
+            "Привет",    // Privet
+            "彼方",      // bi fang
+            "其他",      // qi ta
+       ];
 
         assert_eq!(vec!["よろしく"], unicode_layzy_match(&lst_hz, "y").unwrap());
-        assert_eq!(vec!["こんにちわ"], unicode_layzy_match(&lst_hz, "kon").unwrap());
-        assert_eq!(vec!["Привет"], unicode_layzy_match(&lst_hz, "Privet").unwrap());
+        assert_eq!(vec!["Привет"], unicode_layzy_match(&lst_hz, "Priv").unwrap());
     }
 
     #[test]
     fn tets_unicode_layzy_match_witch_layzy_pinyin() {
         let lst_hz = vec![
-            "不算",
-            "北方",
-            "不对",
-            "よろしく",
-            "こんにちわ",
-            "同步",
-            "彼方",
-            "其他",
-            "Beif"
+            "不算",       // bu suan
+            "Beif",
+            "よろしく",   // yo ro shi ku
+            "不对",       // bu dui
+            "北方",       // bei fang
+            "こんにちわ", // ko nn ni chi wa
+            "同步",      // tong bu
+            "Привет",    // Privet
+            "彼方",      // bi fang
+            "其他",      // qi ta
         ];
 
-        assert_eq!(
-            vec!["不算", "北方", "不对", "彼方", "Beif"],
-            unicode_layzy_match(&lst_hz, "b").unwrap()
-        );
-
+        assert_eq!(vec!["不算", "Beif", "不对", "北方", "彼方"], unicode_layzy_match(&lst_hz, "b").unwrap());
         assert_eq!(vec!["北方", "彼方"], unicode_layzy_match(&lst_hz, "bf").unwrap());
 
-        assert_eq!(vec!["北方", "Beif"], unicode_layzy_match(&lst_hz, "beif").unwrap());
+        assert_eq!(vec!["Beif", "北方",], unicode_layzy_match(&lst_hz, "beif").unwrap());
         assert_eq!(vec!["北方"], unicode_layzy_match(&lst_hz, "beifa").unwrap());
     }
 
